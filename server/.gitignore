@@ -1,0 +1,6 @@
+keys
+.env
+*.log
+*.tfstate*
+node_modules
+package-lock.json

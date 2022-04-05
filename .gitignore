@@ -1,0 +1,24 @@
+# testing
+client/coverage
+
+# production
+client/build
+
+node_modules
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+client/src/const.js
+
+server/*.zip
+server/hashicorp*
+server/.terraform*

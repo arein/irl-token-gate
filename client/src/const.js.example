@@ -1,0 +1,5 @@
+const contract = '';
+const endpoint = ''; // output of the api
+const infuraId = '';
+
+export {contract, endpoint, infuraId}
