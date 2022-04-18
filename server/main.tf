@@ -77,7 +77,7 @@ resource "aws_cloudwatch_log_group" "wallet_pass_generator" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "serverless_lambda"
+  name = "${var.app_name}_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -99,14 +99,14 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 }
 
 resource "aws_apigatewayv2_api" "lambda" {
-  name          = "serverless_lambda_gw"
+  name          = "${var.app_name}_lambda_gw"
   protocol_type = "HTTP"
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  name        = "serverless_lambda_stage"
+  name        = "${var.app_name}_lambda_stage"
   auto_deploy = true
 
   access_log_settings {

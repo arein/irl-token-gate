@@ -30,11 +30,12 @@ function App() {
   const [web3, setWeb3] = React.useState(null);
   const [selectedAccount, setSelectedAccount] = React.useState(null);
   const [selectedToken, setSelectedToken] = React.useState(supportedTokens.length < 2 ? {name: supportedTokens[0].name, decimals: supportedTokens[0].type === 'ERC20' ? supportedTokens[0].decimals : 0, address: supportedTokens[0].address} : null);
-  const [nonce, setNonce] = React.useState(null);
+  const [nonce, setNonce] = React.useState(Math.floor(Math.random() * 1000000));
+  const [message, setMessage] = React.useState(null);
 
   // Prepending with safari forces to open link in Safari
   const isIphone = navigator.userAgent.toLowerCase().includes('iphone');
-  const passUrl = `${endpoint}/serverless_lambda_stage/generate?wallet=${selectedAccount}&nonce=${nonce}&token=${selectedToken && selectedToken.address}&decimals=${selectedToken && selectedToken.decimals}`;
+  const passUrl = `${endpoint}/generate?wallet=${selectedAccount}&message=${message}&nonce=${nonce}&token=${selectedToken && selectedToken.address}&decimals=${selectedToken && selectedToken.decimals}`;
   const disconnectWallet = (() => {
     console.log("Killing the wallet connection", provider);
     setSelectedToken(null);
@@ -77,8 +78,9 @@ function App() {
     });
   });
   const getWalletPass = () => {
-    web3.eth.personal.sign(`I own ${balance} ${selectedToken.address} tokens`, selectedAccount).then((nonce) => {
-      setNonce(nonce);
+    web3.eth.personal.sign(`I own ${balance} ${selectedToken.address} tokens (nonce ${nonce})`, selectedAccount).then((message) => {
+      console.log(message);
+      setMessage(message);
     });
   };
   const openLink = () => {
@@ -131,7 +133,7 @@ function App() {
         Disconnect Wallet
       </button>
       }
-      {isConnected && balance >= 1 && !nonce &&
+      {isConnected && balance >= 1 && !message &&
         <div>
           <span>Congrats. You own {balance} {selectedToken.name}. Get your Apple Wallet pass.</span>
           <br/>

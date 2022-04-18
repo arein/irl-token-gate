@@ -1,9 +1,9 @@
 var ethSigUtil = require('eth-sig-util');
 var ethUtil = require('ethereumjs-util');
 
-const isOwner = (signature, publicAddress, token, balance) => {
+const isOwner = (signature, publicAddress, token, balance, nonce) => {
     return new Promise((resolve, reject) => {
-        const msg = `I own ${balance} ${token} tokens`;
+        const msg = `I own ${balance} ${token} tokens (nonce ${nonce})`;
 
         console.log('Owner', signature, publicAddress, balance);
 

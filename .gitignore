@@ -1,9 +1,9 @@
 # testing
 client/coverage
-
+**/yarn.lock
 # production
 client/build
-
+server/.terraform.lock.hcl
 node_modules
 
 # misc

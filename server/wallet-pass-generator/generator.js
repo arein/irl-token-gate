@@ -18,12 +18,13 @@ module.exports.handler = async (event) => {
   }
   
   const wallet = event.queryStringParameters['wallet'];
-  const signature = event.queryStringParameters['nonce'];
+  const nonce = event.queryStringParameters['nonce'];
+  const signature = event.queryStringParameters['message'];
   const token = event.queryStringParameters['token'];
   const decimals = parseInt(event.queryStringParameters['decimals']);
   return balance.getBalance(token, wallet, decimals).then((balance) => {
     console.log(`${wallet}'s balance of ${token} is '${balance}'`);
-    return auth.isOwner(signature, wallet, token, balance).then((isOwner) => {
+    return auth.isOwner(signature, wallet, token, balance, nonce).then((isOwner) => {
       console.log('is owner', isOwner);
       if (!isOwner) {
         console.log("You're not an owner", isOwner);
@@ -39,7 +40,7 @@ module.exports.handler = async (event) => {
       }
 
       return pass.getPass(wallet).then((buffer) => {
-        console.log("Created Pass");
+        console.log("Created Pass for wallet", wallet);
         try {
           return {
             statusCode: 200,
@@ -91,7 +92,7 @@ module.exports.handler = async (event) => {
 }
 
 const validateInput = (queryStringParameters) => {
-  const requiredParams = ['wallet', 'nonce', 'token', 'decimals'];
+  const requiredParams = ['wallet', 'nonce', 'token', 'decimals', 'message'];
   if (!queryStringParameters) return requiredParams;
 
   const missingParams = [];

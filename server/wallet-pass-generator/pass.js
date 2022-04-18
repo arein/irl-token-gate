@@ -12,7 +12,7 @@ const getPass = (address) => {
                 backgroundColor: "white",
                 organizationName: "DereksAngels",
                 logoText: "Blackdove",
-                sharingProhibited: false
+                sharingProhibited: true
             });
             template.setCertificate(fs.readFileSync(__dirname + "/keys/cert.pem").toString());
             template.setPrivateKey(fs.readFileSync(__dirname + "/keys/key.pem").toString(), passKeyPw);
